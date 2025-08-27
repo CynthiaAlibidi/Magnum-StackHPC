@@ -1,0 +1,15 @@
+name: tox-tests
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - run: pip install --upgrade pip tox tox-gh-actions
+      - run: tox -av || true
+      - run: (tox -e py39 -vv) || (tox -e py -vv) || (tox -vv)
